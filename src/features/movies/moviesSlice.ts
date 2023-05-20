@@ -33,8 +33,8 @@ export const getAllMovies = createAsyncThunk(
 
 export const getAllAvailableMovies = createAsyncThunk(
   "movies/fetchAvailableMoives",
-  async () => {
-    const response: any = await fetchAvailableMovies();
+  async (payload:any) => {
+    const response: any = await fetchAvailableMovies(payload);
     return response.data;
   },
 );

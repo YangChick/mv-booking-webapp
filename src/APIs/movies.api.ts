@@ -5,8 +5,8 @@ export const fetchMoives = async (payload: number) => {
   return sendRequest(`${Api.Api.GET_MOVIES}/${payload}`, "GET");
 };
 
-export const fetchAvailableMovies = async () => {
-  return sendRequest(`${Api.Api.GET_AVAILABLE_MOVIES}`, "GET");
+export const fetchAvailableMovies = async (payload:any) => {
+  return sendRequest(`${Api.Api.GET_AVAILABLE_MOVIES}`, "GET",payload);
 };
 
 export const getMovieByID = async (payload: string) => {

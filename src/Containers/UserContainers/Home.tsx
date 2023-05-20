@@ -6,6 +6,8 @@ import {
   Grid,
   Stack,
   Typography,
+  Button,
+  TextField
 } from "@mui/material";
 import DefaultLayout from "../../components/DefaultLayout";
 import { Fade, Slide } from "react-slideshow-image";
@@ -32,12 +34,18 @@ const Home: React.FC = () => {
   const stt = useAppSelector(status);
   const dispatch = useAppDispatch();
   const [pages, setPages] = React.useState<number>(1);
+  const [searchByKeyword, setSearchByKeyword] = React.useState<string>("");
   const [listMovies, setListMovies] = React.useState<any>([]);
 
   React.useEffect(() => {
-    dispatch(getAllAvailableMovies());
+    dispatch(getAllAvailableMovies({}));
     // dispatch(getAllShowTimes("315162"));
   }, [pages]);
+
+  const handleSearch = () =>{
+    dispatch(getAllAvailableMovies({ keyword: searchByKeyword }))
+    setSearchByKeyword("")
+  }
 
   React.useEffect(() => {
     if (getAllAvailableMovie.payload)
@@ -73,14 +81,13 @@ const Home: React.FC = () => {
               ""
             )}
             <Grid item md={12} xs={12} padding={1}>
-              {getAllAvailableMovie.payload && (
                 <Slide
                   // transitionDuration={2000}
                   easing="linear"
                   arrows={false}
                   duration={2000}
                   infinite={true}>
-                  {getAllAvailableMovie.payload.map(
+                  {listMovies?.map(
                     (item: any, index: string) => (
                       <div className="each-fade" key={index}>
                         <div className="image-container">
@@ -99,9 +106,19 @@ const Home: React.FC = () => {
                     ),
                   )}
                 </Slide>
-              )}
             </Grid>
             <Grid item md={12} xs={12} padding={1}>
+              <Grid sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }} item md={12} xs={12} lg={12}>
+                <TextField onChange={(e) => setSearchByKeyword(e.target.value)} variant="outlined" label='Search movie...'></TextField>
+                <Button sx={{
+                  marginLeft: 2,
+                  height: 1
+                }} onClick={() =>handleSearch()} variant="contained">Search</Button>
+              </Grid>
               <Grid sx={{ overflow: "hidden" }} container md={12} xs={12}>
                 {listMovies &&
                   listMovies.map((item: any, index: string) => {
